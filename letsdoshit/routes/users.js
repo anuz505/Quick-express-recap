@@ -2,9 +2,22 @@ const express = require("express");
 const router = express.Router();
 const data = require("./jsonfiles/data.json"); // Ensure the JSON data is loaded
 
+//middleware
+
+// Middleware function to log the original URL of the request
+// Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle.
+// The next middleware function is commonly denoted by a variable named next.
+// Middleware can perform a variety of tasks such as logging, authentication, and data validation.
+// By calling next(), the middleware passes control to the next middleware function or route handler.
+// If next() is not called, the request will be left hanging and the response will not be sent.
+function logger(req, res, next) {
+  console.log(req.originalUrl);
+  next();
+}
+
 router
   .route("/:userID")
-  .get((req, res) => {
+  .get(logger, (req, res) => {
     res.json(req.user); // Send the user data as JSON
   })
   .put((req, res) => {

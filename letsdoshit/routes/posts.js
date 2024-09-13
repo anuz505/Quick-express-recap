@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const posts = require("./jsonfiles/posts.json");
+router.use(logger);
 router.get("/", (req, res) => {
   res.status(200).json(posts);
 });
@@ -19,4 +20,10 @@ router.param("postID", (req, res, next, postID) => {
     res.status(404).send(`The post  ${postID} is not found`);
   }
 });
+
+function logger(req, res, next) {
+  console.log(req.originalUrl);
+  next();
+}
+
 module.exports = router;
