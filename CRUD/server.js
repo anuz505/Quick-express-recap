@@ -2,11 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const StudentRoute = require("./Routes/student.route.js");
-``;
+
 const PORT = 3000;
 
 //middleware
 app.use(express.json());
+
 //routes
 app.get("/", (req, res) => {
   res.send("Hello the server is running and you are going on the right path");
@@ -18,6 +19,7 @@ app.use("/api/Students", StudentRoute);
 async function startServer() {
   try {
     await mongoose.connect("mongodb://127.0.0.1:27017/testDB");
+
     console.log("The server is connected to database");
 
     app.listen(PORT, () =>
