@@ -1,13 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
+const router = require("./Routes/router.js");
 const app = express();
 
 // middleware
 app.use(express.static("public"));
-
+app.use(express.json());
 // view engine
 app.set("view engine", "ejs");
+
+//router
+app.use(router);
 
 async function startServer() {
   try {
