@@ -11,6 +11,15 @@ const handleErrors = (err) => {
     errors.email = "that email is already registered";
     return errors;
   }
+  //incorrect passowrds and email
+  if (err.message === "incorrect email") {
+    errors.email = "incorrect email";
+    return errors;
+  }
+  if (err.message === "incorrect password") {
+    errors.password = "incorrect password";
+    return errors;
+  }
 
   // validation errors
   if (err.message.includes("User validation failed")) {
@@ -44,7 +53,7 @@ const post_signup = async (req, res) => {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
     res.cookie("JWT", token, { httpOnly: true, maxAge: maxAge });
-    res.status(200).json({ user });
+    res.status(201).json({ user });
   } catch (error) {
     const Errors = handleErrors(error);
     res.status(400).json({ Errors });
@@ -52,9 +61,16 @@ const post_signup = async (req, res) => {
 };
 const login_post = async (req, res) => {
   const { email, password } = req.body;
+  try {
+    const user = await User.login(email, password);
+    const token = createToken(user._id);
+    res.cookie("JWT", token, { httpOnly: true, maxAge: maxAge });
+    res.status(200).json({ userid: user._id });
+  } catch (error) {
+    const Errors = handleErrors(error);
 
-  console.log(email, password);
-  res.send("user login");
+    res.status(400).json({ Errors });
+  }
 };
 module.exports = {
   get_signup,
