@@ -15,15 +15,6 @@ app.set("view engine", "ejs");
 app.use(router);
 
 //cookies
-app.get("/set-cookies", (req, res) => {
-  res.cookie("newUser", true, { maxAge: 1000 * 60 * 60 * 24 });
-  res.send("i think you made a cookie");
-});
-
-app.get("/read-cookies", (req, res) => {
-  const cookies = req.cookies;
-  res.json({ cookies });
-});
 
 async function startServer() {
   try {
