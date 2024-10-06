@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 //handling errors
 const handleErrors = (err) => {
-  console.log(err.message, err.code);
   let errors = { email: "", password: "" };
 
   // duplicate email error
@@ -72,9 +71,14 @@ const login_post = async (req, res) => {
     res.status(400).json({ Errors });
   }
 };
+const get_logout = (req, res) => {
+  res.cookie("JWT", "", { maxAge: 1 });
+  res.redirect("/");
+};
 module.exports = {
   get_signup,
   get_login,
   post_signup,
   login_post,
+  get_logout,
 };
