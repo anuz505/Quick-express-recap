@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const router = require("./Routes/router.js");
 const cookieParser = require("cookie-parser");
 const app = express();
+const requireAuth = require("./middleware/authMiddleware.js");
 
 // middleware
 app.use(express.static("public"));
@@ -32,4 +33,4 @@ async function startServer() {
 startServer();
 // routes
 app.get("/", (req, res) => res.render("home"));
-app.get("/smoothies", (req, res) => res.render("smoothies"));
+app.get("/smoothies", requireAuth, (req, res) => res.render("smoothies"));
